@@ -1,0 +1,30 @@
+{
+  "name": "react-modal-demo",
+  "homepage": "https://curiouser-react-modal.netlify.app/",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@curiouser/react-modal": "link:../",
+    "@reduxjs/toolkit": "^1.6.1",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "react-redux": "^7.2.4",
+    "react-scripts": "^4.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "postinstall": "cd ./node_modules/@curiouser/react-modal && rm -rf yarn.lock node_modules/react node_modules/react-dom"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

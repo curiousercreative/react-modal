@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalWindow tests ModalWindow should match snapshot 1`] = `
+<div
+  className=" modal modal__window modal--open modal__window--centered"
+>
+  <button
+    className="modal__close"
+    onClick={[Function]}
+    type="button"
+  />
+  Hey there!
+</div>
+`;
