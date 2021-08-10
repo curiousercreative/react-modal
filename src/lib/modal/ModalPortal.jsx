@@ -11,12 +11,6 @@ export default function ModalPortal (props) {
   // but because portal rendering is sync, this is the best place for publishing
   React.useEffect(() => {
     modal.pubsub.pub('modal.open');
-
-    return () => {
-      setTimeout(() => {
-        modal.pubsub.pub('modal.close');
-      }, 0);
-    };
   }, []);
 
   return modal.renderPortal(props.children, props);

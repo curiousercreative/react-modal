@@ -1,3 +1,4 @@
+import * as modal from '@curiouser/react-modal';
 import React from 'react';
 
 import SimpleModalDefault from './components/SimpleModalDefault';
@@ -9,6 +10,20 @@ import StoreConnectedModalDefault from './components/StoreConnectedModalDefault'
 import '@curiouser/react-modal/dist/index.css';
 
 export default function App () {
+  // demo observability
+  React.useEffect(() => {
+    // listen for modal opens
+    modal.pubsub.sub('modal.open', () => console.log('it is open!'));
+
+    // listen for modal closes
+    modal.pubsub.sub('modal.close', () => console.log('it is closed!'));
+
+    return () => {
+      // stop listening
+      modal.pubsub.unsub('modal');
+    }
+  }, []);
+
   return (
     <ul>
       <li>

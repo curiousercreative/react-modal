@@ -18,18 +18,24 @@ npm install @curiouser/react-modal
 yarn add @curiouser/react-modal
 ```
 
-## Prerequisites
-- `.modal-container` selector must be available to mount to. Add it just above your body's closing tag `</body>`
-- add styles for `width` (and/or `min-width`, `max-width`) style to `.modal__wrapper` global selector
-    ```css
-    .modal__wrapper {
-      max-width: 800px;
-      min-width: 320px;
-    }
-    ```
-- you may like to override the styles for selector `.modal__close` and/or `.modal__close::after`
-
 ## Usage
+- `.modal-container` selector must be available to mount to. Add it just above your body's closing tag `</body>`. [See it in our CRA example](./example/public/index.html#L36).
+- (optionally) add `modal__wrapper` className to your modal root and `modal__title` and `modal__body` classNames for contents. See it in our [SimpleModal example](./example/src/components/SimpleModal.jsx).
+- observer modal open or close, ([implements @curiouser/pubsub](https://www.npmjs.com/package/@curiouser/pubsub))
+    ```javascript
+    import * as modal from '@curiouser/react-modal';
+
+    // listen for modal opens
+    modal.pubsub.sub('modal.open', () => console.log('it is open!'));
+
+    // listen for modal closes
+    modal.pubsub.sub('modal.close', () => console.log('it is closed!'));
+
+    // stop listening
+    modal.pubsub.unsub('modal');
+    ```
+
+### Example code
 - [Render a simple modal imperatively](./example/src/components/SimpleModalDefault.jsx)
   - [connected to a redux store](./example/src/components/StoreConnectedModalDefault.jsx)
   - [overriding default to prevent dismissal](./example/src/components/SimpleModalNotDismissable.jsx)
@@ -37,7 +43,10 @@ yarn add @curiouser/react-modal
 - [Render a simple modal via portal](./example/src/components/SimpleModalPortal.jsx)
 
 ### Styles
-You're responsible for importing or linking the stylesheet with `import '@curiouser/react-modal/dist/index.css';` or any other way you like, it's just a css file. The package styles don't try to do anything pretty for you, just provide functional styles. Class names try to follow the [BEM naming convention](http://getbem.com/naming/).
+You're responsible for importing or linking the stylesheet with `import '@curiouser/react-modal/dist/index.css';` or any other way you like, it's just a css file. The package styles don't try to do anything fancy for you, just provide baseline, functional styles that work out of the box. Class names try to follow the [BEM naming convention](http://getbem.com/naming/). We recommend adding your own styles for the following selectors:
+- `.modal__wrapper`: add styles for `width` (and/or `min-width`, `max-width`) style to  global selector. [See our styles for the example app](./example/src/index.css#L21)
+- you may override the styles for selector `.modal__close` and/or `.modal__close::after` to customize the close button (X in the top right of modal)
+- [override any styles you like](./src/index.css) and/or [create a PR](https://github.com/curiousercreative/react-modal/compare) to make specific rules read CSS variables
 
 ## License
 This is free and unencumbered software released into the public domain.

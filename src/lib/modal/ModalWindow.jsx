@@ -95,7 +95,7 @@ export default class ModalWindow extends React.Component {
     if (this.props.centered) classes.push('modal__window--centered');
 
     return (
-      <div className={classes.join(' ')} ref={this.windowRef}>
+      <div aria-modal="true" className={classes.join(' ')} ref={this.windowRef} role="dialog">
         {renderIf(this.props.dismissable, () => (
           <button className="modal__close" onClick={this.handleClickClose} type="button" />
         ))}

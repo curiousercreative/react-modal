@@ -2,7 +2,9 @@
 
 exports[`ModalWindow tests ModalWindow should match snapshot 1`] = `
 <div
+  aria-modal="true"
   className=" modal modal__window modal--open modal__window--centered"
+  role="dialog"
 >
   <button
     className="modal__close"
