@@ -21,19 +21,7 @@ yarn add @curiouser/react-modal
 ## Usage
 - `.modal-container` selector must be available to mount to. Add it just above your body's closing tag `</body>`. [See it in our CRA example](./example/public/index.html#L36).
 - (optionally) add `modal__wrapper` className to your modal root and `modal__title` and `modal__body` classNames for contents. See it in our [SimpleModal example](./example/src/components/SimpleModal.jsx).
-- observer modal open or close, ([implements @curiouser/pubsub](https://www.npmjs.com/package/@curiouser/pubsub))
-    ```javascript
-    import * as modal from '@curiouser/react-modal';
-
-    // listen for modal opens
-    modal.pubsub.sub('modal.open', () => console.log('it is open!'));
-
-    // listen for modal closes
-    modal.pubsub.sub('modal.close', () => console.log('it is closed!'));
-
-    // stop listening
-    modal.pubsub.unsub('modal');
-    ```
+- [observe modal open or close](./example/src/App.js#L14), ([implements @curiouser/pubsub](https://www.npmjs.com/package/@curiouser/pubsub))
 
 ### Example code
 - [Render a simple modal imperatively](./example/src/components/SimpleModalDefault.jsx)
