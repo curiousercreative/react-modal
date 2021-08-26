@@ -5,7 +5,7 @@ import isEscapeKeyEvent from '../../util/isEscapeKeyEvent';
 import renderIf from '../../util/renderIf';
 import timeoutPromise from '../../util/timeoutPromise';
 import * as modal from './';
-import { addEventListener, body, querySelector, removeEventListener } from '../dom.js';
+import { addEventListener, body, documentElement, hasScrollbar, querySelector, removeEventListener } from '../dom.js';
 
 /**
  * @property  {jsx} children
@@ -38,8 +38,13 @@ export default class ModalWindow extends React.Component {
     // darken background
     // async to allow .modal-container:empty style to clear before applying .modal-container--open
     setTimeout(() => {
-      querySelector('.modal-container').classList.add('modal-container--open');
+      // scroll lock but preserve vertical scrollbar on browser window
+      if (hasScrollbar()) {
+        body.style.top = `-${documentElement.scrollTop}px`;
+        body.classList.add('modal-open-with-scrollbar');
+      }
       body.classList.add('modal-open');
+      querySelector('.modal-container').classList.add('modal-container--open');
 
       // listen for clicks outside of us
       addEventListener('click', this.onClicks);
@@ -48,8 +53,11 @@ export default class ModalWindow extends React.Component {
   }
 
   componentWillUnmount () {
+    // restore and cleanup after scroll locking
     querySelector('.modal-container').classList.remove('modal-container--open');
-    body.classList.remove('modal-open');
+    body.classList.remove('modal-open-with-scrollbar', 'modal-open');
+    documentElement.scrollTop = Math.abs(parseInt(body.style.top, 10));
+    body.style.top = null;
 
     // stop listening
     removeEventListener('click', this.onClicks);

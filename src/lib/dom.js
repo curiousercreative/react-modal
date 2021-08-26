@@ -14,9 +14,17 @@ export function _ (methodName, defaultValue) {
 
 export const addEventListener = _('addEventListener');
 export const body = hasDOM() && document.body || {};
+export const documentElement = hasDOM() && document.documentElement || {};
 export const querySelector = _('querySelector', null);
 export const removeEventListener = _('removeEventListener');
 
 function hasDOM () {
   return typeof window === 'object' && typeof window.document === 'object';
+}
+
+/** @return {boolean} browser window has vertical scrollbar */
+export function hasScrollbar () {
+  return hasDOM()
+    && window.getComputedStyle(documentElement).overflowY !== 'hidden'
+    && documentElement.scrollHeight > documentElement.clientHeight;
 }
