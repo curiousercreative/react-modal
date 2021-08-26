@@ -15,6 +15,7 @@ export function _ (methodName, defaultValue) {
 export const addEventListener = _('addEventListener');
 export const body = hasDOM() && document.body || {};
 export const documentElement = hasDOM() && document.documentElement || {};
+export const getComputedStyle = hasDOM() && window.getComputedStyle;
 export const querySelector = _('querySelector', null);
 export const removeEventListener = _('removeEventListener');
 

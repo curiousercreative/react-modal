@@ -5,7 +5,7 @@ import isEscapeKeyEvent from '../../util/isEscapeKeyEvent';
 import renderIf from '../../util/renderIf';
 import timeoutPromise from '../../util/timeoutPromise';
 import * as modal from './';
-import { addEventListener, body, documentElement, hasScrollbar, querySelector, removeEventListener } from '../dom.js';
+import { addEventListener, body, documentElement, getComputedStyle, hasScrollbar, querySelector, removeEventListener } from '../dom.js';
 
 /**
  * @property  {jsx} children
@@ -56,7 +56,12 @@ export default class ModalWindow extends React.Component {
     // restore and cleanup after scroll locking
     querySelector('.modal-container').classList.remove('modal-container--open');
     body.classList.remove('modal-open-with-scrollbar', 'modal-open');
+    const scrollBehavior = getComputedStyle(documentElement).scrollBehavior;
+    // unset smooth scrolling
+    if (scrollBehavior !== 'auto') documentElement.style.scrollBehavior = 'auto';
     documentElement.scrollTop = Math.abs(parseInt(body.style.top, 10));
+    // restore smooth scrolling
+    if (scrollBehavior !== 'auto') documentElement.style.scrollBehavior = scrollBehavior;
     body.style.top = null;
 
     // stop listening
