@@ -1,6 +1,6 @@
 {
   "name": "@curiouser/react-modal",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A simple library for rendering React modals",
   "author": "curiousercreative",
   "license": "Unlicense",
