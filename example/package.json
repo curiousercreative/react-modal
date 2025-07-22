@@ -4,12 +4,12 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@curiouser/react-modal": "link:../",
+    "@curiouser/react-modal": "link:..",
     "@reduxjs/toolkit": "^1.6.1",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-redux": "^7.2.4",
-    "react-scripts": "^4.0.0"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
