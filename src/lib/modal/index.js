@@ -16,7 +16,8 @@
 
 import { Pubsub } from '@curiouser/pubsub';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import ModalWindow from './ModalWindow';
 
@@ -28,9 +29,9 @@ export const pubsub = new Pubsub();
 export const ANIMATION_DURATION = 250; // ms
 let isPortal; // Boolean of whether modal is rendered via portal
 let modal; // modal component
-let mountEl; // DOM Element modal is mounted at
 let onClose;
 let queue = Promise.resolve();
+let reactRoot;
 
 /**
  * storeModalRef - store a reference to the mounted modal component
@@ -53,7 +54,7 @@ export function close () {
       // allow modal view component to animate out
       .then(modal.prepareToClose)
       // unmount modal if not rendered within a tree as portal
-      .then(() => !isPortal && ReactDOM.unmountComponentAtNode(mountEl))
+      .then(() => !isPortal && reactRoot.unmount())
       // callback if provided
       .then(() => typeof onClose === 'function' && onClose())
       // notify subscribers
@@ -78,14 +79,18 @@ export function open (children, props = {}, mountSelector = '.modal-container') 
     .then(() => new Promise(resolve => {
       // closure intentional
       isPortal = false;
-      mountEl = document.querySelector(mountSelector);
-      onClose = props.onClose;
 
-      ReactDOM.render(
-        render(children, props),
-        mountEl,
-        resolve
-      );
+      onClose = props.onClose;
+      const jsx = render(children, props);
+
+      try {
+        reactRoot.render(jsx);
+      } catch (e) {
+        // assuming this is an unmounted root error
+        reactRoot = createRoot(document.querySelector(mountSelector));
+        reactRoot.render(jsx);
+      }
+      resolve();
     }))
     .then(() => pubsub.pub('modal.open'))
     .then(() => modal);
@@ -104,11 +109,9 @@ export function render (children, props = {}) {
 export function renderPortal (children, props = {}, mountSelector = '.modal-container') {
   // closure intentional
   isPortal = true;
-  mountEl = document.querySelector(mountSelector);
   onClose = props.onClose;
-
-  return ReactDOM.createPortal(
+  return createPortal(
     render(children, props),
-    mountEl
+    document.querySelector(mountSelector),
   );
 }
